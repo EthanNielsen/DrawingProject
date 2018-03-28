@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.util.Hashable;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -44,10 +45,60 @@ public class ArtPanel extends JPanel
 	
 	public ArtPanel(ArtController app)
 	{
+		super();
+		this.app = app;
+		appLayout = new SpringLayout();
 		
+		currentScale = MINIMUM_SCALE;
+		currentEdgeCount = MINIMUM_EDGE;
+		scaleSlider = new JSlider(MINIMUM_SCALE, MAXIMUM_SCALE);
+		edgeSlider = new JSlider(MINIMUM_EDGE, MAXIMUM_EDGE);
+		
+		canvas = new ShapeCanvas(app);
+		sliderPanel = new JPanel();
+		buttonPanel = new JPanel(new GridLayout(0, 1));
+		
+		triangleButton = new JButton("add triangle");
+		rectangleButton = new JButton("add rectangle");
+		ellipseButton = new JButton("add ellipsee");
+		polygonButton = new JButton("add polygon");
+		clearButton = new JButton("clear image");
+		saveButton = new JButton("save image");
+		colorButton = new JButton("change color");
+		
+		setupSliders();
+		setupPanel();
+		setupLayout();
+		setupListeners();
 	}
 	
+	private void setupSliders()
+	{
+		Hashtable<Integer, JLabel> scaleLabels = new Hashtable<Integer, JLabel>();
+		Hashtable<Integer, JLabel> edgeLabels = new Hashtable<Integer, JLabel>();
+		
+		scaleLabels.put(MINIMUM_SCALE,  new JLabel("<HTML>Small<BR>Shape</HTML>"));
+		scaleLabels.put((MAXIMUM_SCALE + MINIMUM_SCALE) / 2, new JLabel("<HTML>Medium<BR>Shape</HTML>"));		
+		scaleLabels.put(MAXIMUM_SCALE,  new JLabel("<HTML>Large<BR>Shape</HTML>"));
 
+		edgeLabels.put(MINIMUM_EDGE, new JLabel("Edges: " + MINIMUM_EDGE));
+		edgeLabels.put(MAXIMUM_EDGE, new JLabel("Edges: " + MAXIMUM_EDGE));		
+		
+		scaleSlider.setLabelTable(scaleLabels);
+		scaleSlider.setOrientation(JSlider.VERTICAL);
+		scaleSlider.setSnapToTicks(true);
+		scaleSlider.setMajorTickSpacing(10);
+		scaleSlider.setPaintTicks(true);
+		scaleSlider.setPaintLabels(true);
+		
+		edgeSlider.setLabelTable(edgeLabels);
+		edgeSlider.setOrientation(JSlider.VERTICAL);
+		edgeSlider.setSnapToTicks(true);
+		edgeSlider.setMajorTickSpacing(3);
+		edgeSlider.setMinorTickSpacing(1);
+		edgeSlider.setPaintTicks(true);
+		edgeSlider.setPaintLabels(true);
+	}
 }
 
 
