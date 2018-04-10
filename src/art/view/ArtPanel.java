@@ -21,10 +21,10 @@ public class ArtPanel extends JPanel
 {
 	private final int MINIMUM_EDGE = 5;
 	private final int MAXIMUM_EDGE = 20;
-	private final int MINIMUM_SCALE = 5;
-	private final int MAXIMUM_SCALE = 5;
+	private final int MINIMUM_SCALE = 20;
+	private final int MAXIMUM_SCALE = 100;
 	
-	private Controller app;
+	private ArtController app;
 	
 	private SpringLayout appLayout;
 	private DrawingCanvas canvas;
@@ -90,6 +90,7 @@ public class ArtPanel extends JPanel
 		scaleSlider.setMajorTickSpacing(10);
 		scaleSlider.setPaintTicks(true);
 		scaleSlider.setPaintLabels(true);
+		scaleSlider.setValue(MINIMUM_SCALE);
 		
 		edgeSlider.setLabelTable(edgeLabels);
 		edgeSlider.setOrientation(JSlider.VERTICAL);
@@ -128,6 +129,41 @@ public class ArtPanel extends JPanel
 	{
 		
 	}
+	
+	coinFlip()
+	{
+		return (int) (Math.random() * 2) == 0;
+	}
+	
+	private Polygon createdPolygon(int sides)
+	{
+		Polygon currentShape = new Polygon();
+		
+		int originX = (int) (Math.random() * 600);
+		int originY = (int) (Math.random() * 600);
+		
+		for (int index = 0; index < sides; index++)
+		{
+			int minus = coinFlip() ? -1 : 1;
+			int shiftX = (int) (Math.random() * currentScale) * minus;
+			minus = coinFlip() ? -1 : 1;
+			int shiftY = (int) (Math.random() * currentScale) * minus;
+			currentShape.addPoint(originX + shiftY, originY + shiftY);
+		}
+		return currentShape;
+	}
+	
+	private Rectangle createRectangle()
+	{
+		
+	}	
+	
+	private Ellipse2D createEllipse()
+	{
+		
+	}
+	
+	
 }
 
 
