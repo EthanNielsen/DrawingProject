@@ -8,12 +8,13 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
-import java.util.Hashable;
 import java.util.Hashtable;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.SpringLayout;
 
 import art.controller.ArtController;
 
@@ -130,7 +131,7 @@ public class ArtPanel extends JPanel
 		
 	}
 	
-	coinFlip()
+	private boolean coinFlip()
 	{
 		return (int) (Math.random() * 2) == 0;
 	}
@@ -155,7 +156,7 @@ public class ArtPanel extends JPanel
 	
 	private Rectangle createRectangle()
 	{
-		Rectangle currentRectangle:
+		Rectangle currentRectangle;
 			
 		int cornerX = (int) (Math.random() * 600);
 		int cornerY = (int) (Math.random() * 600);
@@ -186,6 +187,63 @@ public class ArtPanel extends JPanel
 			double height = Math.random() * currentScale + 1;
 			ellipse.setFrame(cornerX, cornerY, width, height);
 		}
+	}
+	
+	private void setupListeners()
+	{
+		rectangleButton.addActionListener(new ActionListener()
+		{
+			public void actionPreformed(ActionEvent click)
+			{
+				Rectangle rectangle = createRectangle();
+				canvas.addShape(rectangle);
+			}
+		});
+		
+		triangleButton.addActionListener(new ActionListener()
+		{
+			public void actionPreformed(ActionEvent click)
+			{
+				Polygon triangle = createPolygon(3);
+				canvas.addShape(triangle);
+			}
+		});
+		
+		polygonButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent click)
+			{
+				Polygon polygon = createPolygon(currentEdgeCount);
+				canvas.addShape(polygon);
+			}
+		});
+		
+		ellipseButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent click)
+			{
+				Ellipse2D ellipse = createEllipse();
+				canvas.addShape(ellipse);
+			}
+		});
+		
+		clearButton.addActionListener(click -> canvas.clear());
+		
+		saveButton.addActionListener(click -> canvas.save());
+		
+		colorButton.addActionListener(click -> canvas.changeBackround());
+		
+		scaleSlider.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
+				if (!scaleSlider.getValueIsAdjusting())
+				{
+					currentScale = scaleSlider.getValue();
+				}
+			}
+		});
 	}
 	
 	
