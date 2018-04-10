@@ -27,7 +27,7 @@ public class ArtPanel extends JPanel
 	private Controller app;
 	
 	private SpringLayout appLayout;
-	private ShapeCanvas canvas;
+	private DrawingCanvas canvas;
 	private JPanel buttonPanel;
 	private JPanel sliderPanel;
 	private JSlider scaleSlider;
