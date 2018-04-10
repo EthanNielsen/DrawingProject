@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.SpringLayout;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import art.controller.ArtController;
 
@@ -241,6 +243,18 @@ public class ArtPanel extends JPanel
 				if (!scaleSlider.getValueIsAdjusting())
 				{
 					currentScale = scaleSlider.getValue();
+				}
+			}
+		});
+		
+		edgeSlider.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
+				if (!edgeSlider.getValueIsAdjusting())
+				{
+					currentEdgeCount = scaleSlider.getValue();
 				}
 			}
 		});
