@@ -32,7 +32,17 @@ public class DrawingCanvas extends JPanel
 	
 	public ShapeCanvas(ArtController app)
 	{
+		super();
+		this.app;
+		triangleList = new ArrayList<Polygon>();
+		polygonList = new ArrayList<Polygon>();
+		ellipseList = new ArrayList<Ellipse2D>();
+		rectangleList = new ArrayList<Rectangle>();
 		
+		canvasImage = new BufferImage(600, 600, BufferImage.TYPE_INT_ARGB);
+		this.setMinimumSize(new Dimension(600, 600));
+		this.setPreferredSize(new Dimension(600, 600));
+		this.setMaximumSize(getPreferredSize());
 	}
 
 }
