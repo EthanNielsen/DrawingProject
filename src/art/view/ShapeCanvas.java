@@ -15,15 +15,19 @@ public class ShapeCanvas eArrayList<E>anel
 	private ArrayList<Polygon> polygonList;
 	private ArrayList<Ellips2D> ellipseList;
 	private ArrayList<Rectangle> rectangleList;
-	private ArtController app;
+	private Controller app;
+	private int previousX;
+	private int previousY;
 	
 	private BufferedImage canvasImage;
 	
-	public ShapeCanvas(ArtController app)
+	public ShapeCanvas(Controller app)
 	{
 		super();
 		this.app = app;
-		riangleList = new ArrayList<Polygon>();
+		
+		resetPoint();
+		triangleList = new ArrayList<Polygon>();
 		polygonList = new ArrayList<Polygon>();
 		ellipseList = new ArrayList<Ellipse2D>();
 		rectangleList = new ArrayList<Rectangle>();
@@ -34,7 +38,7 @@ public class ShapeCanvas eArrayList<E>anel
 		this.setMaximumSize(getPreferredSize());
 	}
 	
-	public void addShape(shape current)
+	public void addShape(Shape current)
 	{
 		if (current instanceof Polygon)
 		{
@@ -73,16 +77,29 @@ public class ShapeCanvas eArrayList<E>anel
 		
 	}
 	
-	public void drawOnCanvas(int xPosittion, int yPosition)
+	public void drawOnCanvas(int xPosition, int yPosition, int lineWidth)
 	{
 		Graphics2D current = canvasImage.createGraphics();
 		current.setPaint(Color.DARK_GRAY);
-		current.setStroke(new BasicStroke(3));
+		current.setStroke(new BasicStroke(lineWidth));
 		
-		current.drawLine(xPosition, yPosition, xPosition, yPosition);
-		
+		if (previousX == Integer.MIN_VALUE)
+		{
+			current.drawLine(xPosition, yPosition, xPosition, yPosition);
+		}
+		else
+		{
+			current.drawLine(previousX, previousY, xPosition, yPosition);
+		}
+		previousX = xPosition;
+		previousY = yPosition;
 		updateImage();
 	}
 	
+	public void resetPoint()
+	{
+		previousX = Integer.MIN_VALUE;
+		previousY = Integer.MIN_VALUE;
+	}
 
 }
