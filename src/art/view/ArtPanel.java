@@ -7,9 +7,13 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
 import java.util.Hashtable;
 
+import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,7 +22,7 @@ import javax.swing.SpringLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import art.controller.ArtController;
+import art.controller.Controller;
 
 public class ArtPanel extends JPanel
 {
@@ -27,7 +31,7 @@ public class ArtPanel extends JPanel
 	private final int MINIMUM_SCALE = 20;
 	private final int MAXIMUM_SCALE = 100;
 	
-	private ArtController app;
+	private Controller app;
 	
 	private SpringLayout appLayout;
 	private DrawingCanvas canvas;
@@ -46,7 +50,7 @@ public class ArtPanel extends JPanel
 	private int currentEdgeCount;
 	private int currentScale;
 	
-	public ArtPanel(ArtController app)
+	public ArtPanel(Controller app)
 	{
 		super();
 		this.app = app;
@@ -257,6 +261,23 @@ public class ArtPanel extends JPanel
 					currentEdgeCount = scaleSlider.getValue();
 				}
 			}
+		});
+		
+		canvas.addMouseMotionListener(new MouseMotionListener()
+		{
+			public void mouseDragged(MouseEvent drag)
+			{
+				
+			}
+			
+			@Override
+			public void mouseMoved(MouseEvent move)
+			{
+				int x = move.getX();
+				int y = move.getY();
+				
+				System.out.println("The X is at " + x + " and the Y is at " + y);
+			}	
 		});
 	}
 	
