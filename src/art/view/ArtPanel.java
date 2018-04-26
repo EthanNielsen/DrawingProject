@@ -34,7 +34,7 @@ public class ArtPanel extends JPanel
 	private Controller app;
 	
 	private SpringLayout appLayout;
-	private DrawingCanvas canvas;
+	private ShapeCanvas canvas;
 	private JPanel buttonPanel;
 	private JPanel sliderPanel;
 	private JSlider scaleSlider;
@@ -142,7 +142,7 @@ public class ArtPanel extends JPanel
 		return (int) (Math.random() * 2) == 0;
 	}
 	
-	private Polygon createdPolygon(int sides)
+	private Polygon createPolygon(int sides)
 	{
 		Polygon currentShape = new Polygon();
 		
@@ -166,6 +166,7 @@ public class ArtPanel extends JPanel
 			
 		int cornerX = (int) (Math.random() * 600);
 		int cornerY = (int) (Math.random() * 600);
+		int width = (int)(Math.random() * currentScale) + 1;
 		if (coinFlip())
 		{
 			currentRectangle = new Rectangle(cornerX, cornerY, width, width);
@@ -175,6 +176,8 @@ public class ArtPanel extends JPanel
 			int height = (int)(Math.random() * currentScale) + 1;
 			currentRectangle = new Rectangle(cornerX, cornerY, width, height);
 		}
+		
+		return currentRectangle;
 	}	
 	
 	private Ellipse2D createEllipse()
@@ -267,17 +270,43 @@ public class ArtPanel extends JPanel
 		{
 			public void mouseDragged(MouseEvent drag)
 			{
+				int x = drag.getX();
+				int y = drag.getY();			
 				
+				canvas.drawOnCanvas(x, y);
 			}
 			
 			@Override
 			public void mouseMoved(MouseEvent move)
 			{
-				int x = move.getX();
-				int y = move.getY();
-				
-				System.out.println("The X is at " + x + " and the Y is at " + y);
 			}	
+		});
+		
+		canvas.addMouseListener(new MouseListener()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{}
+			
+			@Override
+			public void mousePressed(MouseEvent e)
+			{}
+			
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				canvas.resetPoint();
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{}
+			
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+				canvas.resetPoint();
+			}			
 		});
 	}
 	
