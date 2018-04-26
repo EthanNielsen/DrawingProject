@@ -13,7 +13,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
 import java.util.Hashtable;
 
-import javax.swing.*;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
