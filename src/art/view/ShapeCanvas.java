@@ -1,19 +1,26 @@
 package art.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class ShapeCanvas eArrayList<E>anel 
+import art.controller.Controller;
+
+public class ShapeCanvas extends JPanel
 {
 	private ArrayList<Polygon> triangleList;
 	private ArrayList<Polygon> polygonList;
-	private ArrayList<Ellips2D> ellipseList;
+	private ArrayList<Ellipse2D> ellipseList;
 	private ArrayList<Rectangle> rectangleList;
 	private Controller app;
 	private int previousX;
@@ -38,6 +45,48 @@ public class ShapeCanvas eArrayList<E>anel
 		this.setMaximumSize(getPreferredSize());
 	}
 	
+	@Override
+	protected void paintComponent(Graphics graphics)
+	{
+		super.paintComponent(graphics);
+		graphics.drawImage(canvasImage, 0, 0, null);
+	}
+	
+	private void updateImage()
+	{
+		Graphics2D currentGraphics = (Graphics2D) canvasImage.getGraphics();
+		
+		for (Ellipse2D current : ellipseList)
+		{
+			currentGraphics.setColor(randomColor());
+			currentGraphics.setStroke(new BasicStroke(2));
+			currentGraphics.fill(current);
+			currentGraphics.setColor(randomColor());
+			currentGraphics.draw(current);
+		}
+		
+		for (Polygon currentTriangle : triangleList)
+		{
+			currentGraphics.setColor(randomColor());
+			currentGraphics.fill(currentTriangle);
+		}
+		
+		for (Polygon currentPolygon : polygonList)
+		{
+			currentGraphics.setColor(randomColor());
+			currentGraphics.setStroke(new BasicStroke(4));
+			currentGraphics.draw(currentPolygon);
+		}
+		
+		for (Rectangle currentRectangle : rectangleList)
+		{
+			currentGraphics.setColor(randomColor());
+			currentGraphics.fill(currentRectangle);
+		}
+		currentGraphics.dispose();
+		repaint();
+	}
+	
 	public void addShape(Shape current)
 	{
 		if (current instanceof Polygon)
@@ -57,14 +106,19 @@ public class ShapeCanvas eArrayList<E>anel
 		}
 		else
 		{
-			rectangleList.add((Rectangle)current):
+			rectangleList.add((Rectangle)current);
 		}
 		updateImage();
 	}
 	
 	public void clear()
 	{
-		
+		canvasImage = new BufferedImage(600, 600, BufferedImage.TYPE_INT_ARGB);
+		ellipseList.clear();
+		triangleList.clear();
+		polygonList.clear();
+		rectangleList.clear();
+		updateImage();
 	}
 	
 	public void changeBackround()
