@@ -196,13 +196,39 @@ public class ArtPanel extends JPanel
 			double height = Math.random() * currentScale + 1;
 			ellipse.setFrame(cornerX, cornerY, width, height);
 		}
+		
+		return ellipse;
 	}
 	
 	private void setupListeners()
 	{
+		edgeSlider.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
+				if (!edgeSlider.getValueIsAdjusting())
+				{
+					currentEdgeCount = scaleSlider.getValue();
+				}
+			}
+		});
+
+		scaleSlider.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
+				if (!scaleSlider.getValueIsAdjusting())
+				{
+					currentScale = scaleSlider.getValue();
+				}
+			}
+		});
+		
 		rectangleButton.addActionListener(new ActionListener()
 		{
-			public void actionPreformed(ActionEvent click)
+			public void actionPerformed(ActionEvent click)
 			{
 				Rectangle rectangle = createRectangle();
 				canvas.addShape(rectangle);
@@ -211,7 +237,7 @@ public class ArtPanel extends JPanel
 		
 		triangleButton.addActionListener(new ActionListener()
 		{
-			public void actionPreformed(ActionEvent click)
+			public void actionPerformed(ActionEvent click)
 			{
 				Polygon triangle = createPolygon(3);
 				canvas.addShape(triangle);
@@ -241,30 +267,6 @@ public class ArtPanel extends JPanel
 		saveButton.addActionListener(click -> canvas.save());
 		
 		colorButton.addActionListener(click -> canvas.changeBackround());
-		
-		scaleSlider.addChangeListener(new ChangeListener()
-		{
-			@Override
-			public void stateChanged(ChangeEvent e)
-			{
-				if (!scaleSlider.getValueIsAdjusting())
-				{
-					currentScale = scaleSlider.getValue();
-				}
-			}
-		});
-		
-		edgeSlider.addChangeListener(new ChangeListener()
-		{
-			@Override
-			public void stateChanged(ChangeEvent e)
-			{
-				if (!edgeSlider.getValueIsAdjusting())
-				{
-					currentEdgeCount = scaleSlider.getValue();
-				}
-			}
-		});
 		
 		canvas.addMouseMotionListener(new MouseMotionListener()
 		{
