@@ -1,7 +1,10 @@
 package art.view;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -70,6 +73,16 @@ public class ShapeCanvas eArrayList<E>anel
 		
 	}
 	
+	public void drawOnCanvas(int xPosittion, int yPosition)
+	{
+		Graphics2D current = canvasImage.createGraphics();
+		current.setPaint(Color.DARK_GRAY);
+		current.setStroke(new BasicStroke(3));
+		
+		current.drawLine(xPosition, yPosition, xPosition, yPosition);
+		
+		updateImage();
+	}
 	
 
 }
